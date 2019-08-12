@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <bean id="swaggerFeature" class="org.apache.cxf.jaxrs.swagger.Swagger2Feature">
+        <property name="resourcePackage" value="com.danny.swagger"/>
+    </bean>
+
+    <bean id="serviceBean" class="com.danny.swagger.PatientServiceImpl"/>
+
+    <bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+
+    <jaxrs:server id="patientService" address="/patientservice" staticSubresourceResolution="true">
+        <jaxrs:serviceBeans>
+            <ref bean="serviceBean"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider"/>
+        </jaxrs:providers>
+        <jaxrs:features>
+            <ref bean="swaggerFeature"/>
+        </jaxrs:features>
+    </jaxrs:server>
+
+</beans>
